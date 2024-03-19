@@ -1,3 +1,5 @@
+import time
+
 import boto3
 import cv2
 import numpy as np
@@ -64,6 +66,21 @@ def object_detector(frame_data, model_path):
         return False
 
 
+def send_sns_email():
+    # Create an SNS client
+    client = boto3.client("sns")
+
+    # Send your sms message.
+    client.publish(
+        TopicArn="arn:aws:sns:us-east-1:905418005302:dog_detection:10e1c03a-8211-49d6-bc94-051c196651a0",
+        Message="A dog was detected alone",
+    )
+
+
 model = load_model('model/best.pt')
 frames = get_kinesis_video_stream_frames(kinesis_video_client, stream_name)
-object_detector(frames, model)
+
+
+if object_detector(frames, model):
+    send_sns_email()
+    time.sleep(600)
