@@ -80,7 +80,6 @@ def send_sns_email():
 model = load_model('model/best.pt')
 frames = get_kinesis_video_stream_frames(kinesis_video_client, stream_name)
 
-
-if object_detector(frames, model):
-    send_sns_email()
-    time.sleep(600)
+# Ensure frames are not empty
+if not frames:
+    raise Exception("Frames data is empty")
