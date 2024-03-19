@@ -34,6 +34,7 @@ def get_kinesis_video_stream_frames(client, stream_name):
         StartSelector={'StartSelectorType': 'NOW'}
     )
 
+
     return response['Payload'].read()
 
 
@@ -83,3 +84,9 @@ frames = get_kinesis_video_stream_frames(kinesis_video_client, stream_name)
 # Ensure frames are not empty
 if not frames:
     raise Exception("Frames data is empty")
+
+
+vcap.release()
+cv2.destroyAllWindows()
+print("Video stream is closed")
+
