@@ -42,6 +42,7 @@ while True:
 
     # Open the image file
     img = Image.open(os.getcwd()+"/"+newest_image_path)
+    print(os.getcwd()+"/"+newest_image_path)
 
     # Run image through YOLO model
     model_path = 'model/best.pt'
