@@ -1,24 +1,13 @@
-
 import time
 import boto3
-import cv2
-import numpy as np
-from ultralytics import YOLO
-import av
 from PIL import Image
-# to not exceed the S3 API rate limits
-import time
 import os
-
-
-
+from ultralytics import YOLO
 
 # Initialize AWS credentials and Kinesis Video client
 region_name = 'us-east-1'
 stream_name = 'camera_100'
-model_path= "model/best.pt"
-
-import boto3
+model_path = "model/best.pt"
 
 # Create a S3 resource object
 s3 = boto3.resource('s3')
@@ -50,11 +39,15 @@ while True:
             print(f"Opened image: {image_path}")
     except (IOError, SyntaxError) as e:
         print('Invalid file: ', newest_image_path)
+        continue  # jump to the next iteration of the loop
 
     # Run image through YOLO model
-    model_path = 'model/best.pt'
     model = YOLO(model_path)
-    results = model.predict(img)[0]
+    try:
+        results = model.predict(img)[0]
+    except Exception as e:
+        print(f"Failed to generate prediction with error: {str(e)}")
+        continue
 
     # Draw bounding boxes and labels
     img_objects = []
