@@ -22,7 +22,7 @@ endpoint= kvs.get_data_endpoint(
 )["DataEndpoint"]
 
 print(endpoint)
-kvam = boto3.client("kinesis-video-archived-media", endpoint_url=endpoint)
+kvam = boto3.client("kinesis-video-archived-media", endpoint_url=endpoint, region_name=region_name)
 
 url = kvam.get_hls_stream_session_url(stream_name=stream_name,PlaybackMode="LIVE")["HLSStreamingSessionURL"]
 
