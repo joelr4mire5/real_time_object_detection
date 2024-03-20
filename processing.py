@@ -13,7 +13,7 @@ model_path= "model/best.pt"
 session = boto3.Session()
 kinesis_video_client = session.client('kinesisvideo', region_name=region_name)
 
-kvs= boto3.client("kinesisvideo")
+kvs= boto3.client("kinesisvideo", region_name=region_name)
 endpoint= kvs.get_data_endpoint(
     APINAME="GET_HLS_STREAMING_SESSION_URL",
     stream_name=stream_name
