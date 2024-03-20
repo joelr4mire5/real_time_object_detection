@@ -47,7 +47,7 @@ while True:
     img_objects = []
     for box, conf, class_id in zip(results.boxes.xyxy, results.boxes.conf, results.boxes.cls):
         x1, y1, x2, y2 = box
-        if conf > 0.90:
+        if conf > 0.50:
             img_objects.append(model.names[int(class_id)].upper())
 
     # If dog is detected, send SNS notification
@@ -62,4 +62,4 @@ while True:
 
     # Add delay before the next iteration
     print(img_objects)
-    time.sleep(60)
+    time.sleep(2)
