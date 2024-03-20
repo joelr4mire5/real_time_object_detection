@@ -61,4 +61,5 @@ while True:
         )
 
     # Add delay before the next iteration
+    print(img_objects)
     time.sleep(60)
