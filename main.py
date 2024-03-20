@@ -32,19 +32,11 @@ while True:
 
     image_path = os.path.join(os.getcwd(), newest_image_path)
 
-    # Open the image file
-    try:
-        with open(image_path, 'rb') as file:
-            img = Image.open(file)
-            print(f"Opened image: {image_path}")
-    except (IOError, SyntaxError) as e:
-        print('Invalid file: ', newest_image_path)
-        continue  # jump to the next iteration of the loop
 
     # Run image through YOLO model
     model = YOLO(model_path)
     try:
-        results = model.predict(img)[0]
+        results = model.predict(image_path)[0]
     except Exception as e:
         print(f"Failed to generate prediction with error: {str(e)}")
         continue
