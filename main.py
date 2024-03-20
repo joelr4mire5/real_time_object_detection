@@ -3,6 +3,7 @@ import boto3
 from PIL import Image
 import os
 from ultralytics import YOLO
+import cv2
 
 # Initialize AWS credentials and Kinesis Video client
 region_name = 'us-east-1'
@@ -31,12 +32,13 @@ while True:
     print('Downloaded newest_image.jpeg')
 
     image_path = os.path.join(os.getcwd(), newest_image_path)
+    frame = cv2.imread(image_path)
 
 
     # Run image through YOLO model
     model = YOLO(model_path)
     try:
-        results = model.predict(image_path)[0]
+        results = model.predict(frame)[0]
     except Exception as e:
         print(f"Failed to generate prediction with error: {str(e)}")
         continue
