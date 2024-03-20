@@ -63,4 +63,4 @@ while True:
 
     # Add delay before the next iteration
     print(img_objects)
-    time.sleep(2)
+    time.sleep(300)
