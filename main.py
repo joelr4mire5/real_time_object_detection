@@ -23,12 +23,12 @@ while True:
     objects = [(obj.last_modified, obj.key) for obj in bucket.objects.filter(Prefix=folder_name)]
     objects.sort(reverse=True)
     newest_object_name = objects[0][1]
-    newest_image_path = 'newest_image.jpg'
+    newest_image_path = 'newest_image.jpeg'
 
     # Download the newest object
     bucket.download_file(newest_object_name, newest_image_path)
     time.sleep(5)  # wait for 5 seconds before attempting to open
-    print('Downloaded newest_image.jpg')
+    print('Downloaded newest_image.jpeg')
 
     image_path = os.path.join(os.getcwd(), newest_image_path)
 
