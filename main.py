@@ -21,7 +21,7 @@ import boto3
 s3 = boto3.resource('s3')
 
 # Specify your S3 bucket name
-bucket_name = 'ccrvmontezumaimages'
+bucket_name = 'cctvimagescamera100Info'
 folder_name = 'camera_100'
 
 # Create a Bucket resource
