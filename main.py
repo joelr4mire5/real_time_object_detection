@@ -59,6 +59,7 @@ while True:
             TopicArn=topic_arn,
             Message="A dog was detected alone"
         )
+        print("topic published")
 
     # Add delay before the next iteration
     print(img_objects)
