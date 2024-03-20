@@ -26,30 +26,37 @@ kvam = boto3.client("kinesis-video-archived-media", endpoint_url=endpoint, regio
 
 url = kvam.get_hls_streaming_session_url(StreamName=stream_name, PlaybackMode="LIVE")["HLSStreamingSessionURL"]
 vcap = cv2.VideoCapture(url)
+model = YOLO(model_path)
 
 while (True):
     ret, frame = vcap.read()
-    if frame is not None:
-        model = YOLO(model_path)
-        results = model(frame)[0]
-        # Draw bounding boxes and labels
 
-        img_objects = []
-        for box, conf, class_id in zip(results.boxes.xyxy, results.boxes.conf, results.boxes.cls):
-            x1, y1, x2, y2 = box
-            if conf > 0.90:
-                img_objects.append(model_path.names[int(class_id)].upper())
-        if 'dog' in img_objects or 'person' in img_objects:
-            client = boto3.client("sns")
-            client.publish(
+    if not ret:
+        print("Frame could not be captured")
+        continue
+
+
+
+    results = model(frame)[0]
+    # Draw bounding boxes and labels
+
+    img_objects = []
+    for box, conf, class_id in zip(results.boxes.xyxy, results.boxes.conf, results.boxes.cls):
+        x1, y1, x2, y2 = box
+        if conf > 0.90:
+            img_objects.append(model_path.names[int(class_id)].upper())
+    if 'dog' in img_objects or 'person' in img_objects:
+        client = boto3.client("sns",region_name=region_name)
+        client.publish(
                 TopicArn="arn:aws:sns:us-east-1:905418005302:dog_detection:10e1c03a-8211-49d6-bc94-051c196651a0",
                 Message="A dog was detected alone",
-            )
-        if cv2.waitKey(22)& 0xFF == ord("q"):
-            break
-        else:
-            print("frame is None")
-            break
+        )
+        print("message sent")
+    if cv2.waitKey(22)& 0xFF == ord("q"):
+        break
+    else:
+        print("frame is None")
+        break
 
 vcap.release()
 cv2.destroyAllWindows()
