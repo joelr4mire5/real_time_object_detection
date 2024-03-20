@@ -38,11 +38,18 @@ while True:
 
     # Download the newest object
     bucket.download_file(newest_object_name, newest_image_path)
-    print('download newest_image.jpg')
+    time.sleep(5)  # wait for 5 seconds before attempting to open
+    print('Downloaded newest_image.jpg')
+
+    image_path = os.path.join(os.getcwd(), newest_image_path)
 
     # Open the image file
-    img = Image.open(os.getcwd()+"/"+newest_image_path)
-    print(os.getcwd()+"/"+newest_image_path)
+    try:
+        with open(image_path, 'rb') as file:
+            img = Image.open(file)
+            print(f"Opened image: {image_path}")
+    except (IOError, SyntaxError) as e:
+        print('Invalid file: ', newest_image_path)
 
     # Run image through YOLO model
     model_path = 'model/best.pt'
