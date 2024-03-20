@@ -8,7 +8,9 @@ import av
 from PIL import Image
 # to not exceed the S3 API rate limits
 import time
-import PIL
+import os
+
+
 
 
 # Initialize AWS credentials and Kinesis Video client
@@ -36,9 +38,10 @@ while True:
 
     # Download the newest object
     bucket.download_file(newest_object_name, newest_image_path)
+    print('download newest_image.jpg')
 
     # Open the image file
-    img = Image.open(newest_image_path)
+    img = Image.open(print(os.getcwd()+"/"+newest_image_path))
 
     # Run image through YOLO model
     model_path = 'model/best.pt'
