@@ -15,7 +15,7 @@ s3 = boto3.resource('s3')
 
 # Specify your S3 bucket name
 bucket_name = 'cctvimagescamera100'
-folder_name = 'camera_100'
+folder_name = 'camera_100/'
 
 # Create a Bucket resource
 bucket = s3.Bucket(bucket_name)
