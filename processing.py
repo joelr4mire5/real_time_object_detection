@@ -36,7 +36,7 @@ else:
 while (True):
     ret, frame = vcap.read()
 
-    if not ret:
+    if not ret or frame is None:
         print("Frame could not be captured")
         continue
 
