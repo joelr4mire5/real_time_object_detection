@@ -28,6 +28,11 @@ url = kvam.get_hls_streaming_session_url(StreamName=stream_name, PlaybackMode="L
 vcap = cv2.VideoCapture(url)
 model = YOLO(model_path)
 
+if not vcap.isOpened():
+    print("Error opening video stream")
+else:
+    print("Video stream opened successfully")
+
 while (True):
     ret, frame = vcap.read()
 
